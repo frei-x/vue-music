@@ -35,6 +35,7 @@ var router = new Router({
             name:'SongSheet'
         },
         {
+            
             //其他路径重定向到首页
             path:'*',
             redirect: '/'

@@ -13,12 +13,16 @@
       </el-col>
     </el-row>
     <!-- modth = 'out-in' 动画时间顺序 -->
-    
-      <div id="router-view">
+    <!-- <router-view>外层加div 设置为相对定位,内部视图为绝对定位,
+    既可以撑开html,路由切换动画也不会因为元素脱离文档流而瞬间上下抖动 -->
+    <!--keep-alive 缓存路由视图,被缓存的视图组件不会被销毁/重载,不会触发生命周期,但可以触发组建内部路由钩子  -->
+      <!-- <div id="router-view"> -->
         <transition name="changePage" modth="out-in">
-          <router-view></router-view>
+          <keep-alive >
+            <router-view style='position:absolute;top:0.43rem'></router-view>
+          </keep-alive>
         </transition>
-      </div>
+      <!-- </div> -->
     
   </div>
 </template>
@@ -41,12 +45,25 @@ export default {
 <style>
 html,
 body {
-  width: 100%;
   margin: 0;
-  font-size: 6.51041666vw;
+  width: 100%;
+  height: auto;
+  background: #eee;
 }
 body::-webkit-scrollbar {
-        display: none;
+  display: none;
+}
+#app {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 20px;
+  font-size: 16px;
 }
 .header_nav {
   border-bottom: 1px solid #ddd;
@@ -81,6 +98,8 @@ body::-webkit-scrollbar {
 }
 #router-view{
   position: relative;
+  width: 100%;
+  height: auto;
 }
 .el-row {
   /* margin-bottom: 20px; */
@@ -91,16 +110,6 @@ body::-webkit-scrollbar {
 }
 .bg-purple-dark {
   background: #99a9bf;
-}
-#app {
-  position: relative;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
-  font-size: 16px;
 }
 .changePage-enter {
   opacity: 0;

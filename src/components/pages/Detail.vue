@@ -31,9 +31,8 @@ export default {
 </script>
 <style scoped>
 .wrapper{
-    width: 100vw;
+    width: 100%;
     height: auto;
     text-align: center;
-    position: absolute;
 }
 </style>
