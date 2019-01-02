@@ -1,6 +1,6 @@
 <template>
     <div ref="collapse" :data-h='height' class="body" :style="'height:'+closeHeight" @click="isOpen=!isOpen;">
-        <slot></slot>
+       <slot></slot><i :class="['el-icon-caret-left',isOpen?'el-icon-caret-leftOpen':'']"></i>
     </div>
 </template>
 
@@ -71,10 +71,20 @@ export default {
           var openheight =  getComputedStyle(el).height;
           el.style.height = this.closeHeight;
           setTimeout(()=>{
-            el.style.height = openheight;
+            // 如果auto的高度比初始高度还小,就不使用auto计算出的高度,closeHeight单位是rem,转换为px
+            if(parseInt(openheight)<parseFloat(this.closeHeight)*this.Golbal.fontSize){
+              el.style.height = this.closeHeight;
+            }else{
+              el.style.height = openheight;
+            }
           },50);
-         
         }
+         this.$emit('updateIsOpen', [this.isOpen,this.closeHeight]);
+    },
+    //watch props中的closeHeight.如果closeHeight传入了值,将传入的新值覆盖默认值
+    //不watch该值操作下,本组件内使用的closeHeight会一直是默认值,
+    closeHeight:function(newVleu,oldValue){
+      this.closeHeight = newVleu;
     }
   },
   methods: {}
@@ -88,9 +98,23 @@ export default {
   width: 100%;
   overflow: hidden;
   transition: 0.4s ease;
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform: translate3d(0, 0, 0);
   background: white;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 1px 1px 10px rgba(19, 6, 6, 0.596); */
   line-height: 22px;
   box-sizing: border-box;
+}
+.el-icon-caret-left{
+  position:absolute;top: 0;
+  line-height: 0.5rem;
+  right: 4px;
+  transition: 0.5s ease ;
+  color: grey;
+}
+.el-icon-caret-leftOpen{
+  transform: rotate(-90deg) scale(1.2);
+  color: black;
 }
 </style>

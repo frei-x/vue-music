@@ -2,10 +2,11 @@
   <div class="wrapper">
     <el-row :gutter="5">
       <el-col :span="8" v-for="(item,index) in arrSheetList" 
-        :key="index" :data-id="item.id" @click.native='funGoSheetDetail(item.id)'>
+        :key="index" :data-id="item.id" @click.native="funGoSheetDetail(item.id)">
         <div class="sheetItem">
-          <img :src="item.picUrl" :alt="item.name">
-          <div class="sheetName">{{item.name}}</div>
+          <!-- <img :src="item.picUrl" :alt="item.name"> -->
+          <img src="@/assets/sheetImg.png" :alt="item.name">
+        <div class="sheetName">{{item.name}}</div>
         </div>
       </el-col>
     </el-row>
@@ -20,7 +21,7 @@ export default {
     return {
       arrSheetList: [],
       // 记录滚动条高度
-      scrollX:null,
+      scrollX:0,
     };
   },
   watch: {},
@@ -33,18 +34,14 @@ export default {
     var g = this.Golbal;
     this.axios.get(g.api.recommendSheet + "", {})
       .then(res => {
-        console.table(res);
-        console.log(res);
         if (res.data.code == 200) {
-          
           this.arrSheetList = res.data.result;
-          console.log(this.arrSheetList);
         } else {
-          console.log("arrSheetList数据状态非200");
+          console.error("arrSheetList数据状态非200");
         }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   },
   beforeMount: function() {
@@ -52,10 +49,12 @@ export default {
   },
   activated() {
     //路由进入该页
-    document.documentElement.scrollTop = this.scrollX;
+    document.body.scrollTop=document.documentElement.scrollTop = this.scrollX;
   },
   deactivated() {
-    this.scrollX = document.documentElement.scrollTop;
+    //document.documentElement.scrollTop在谷歌为0,但是document.body.scrollTop为0时,documentElement出现20
+    this.scrollX = (document.body.scrollTop+0.1||document.documentElement.scrollTop);
+    //console.log(document.body.scrollTop,document.documentElement.scrollTop)
     //  = document.documentElement.scrollTop = 0;
     //路由离开该页-
   },
@@ -63,14 +62,7 @@ export default {
   computed: {},
   methods: {
     funGoSheetDetail(id){
-      //console.log(id);
-     this.$router.push({
-       path:'/songSheet',
-       name:'SongSheet',
-       query:{
-         id:id,
-       }
-     })
+      this.$store.commit('funGoSheetDetail',id);
     }
   }
 };

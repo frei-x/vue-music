@@ -15,7 +15,7 @@ var router = new Router({
             name:'Home'
         },
         {
-            path: '/rank/:id',
+            path: '/rank',
             component: Rank,
             name:'Rank'
         },

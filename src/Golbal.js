@@ -11,8 +11,12 @@ const Golbal  = {
         //排行榜摘要
         topSheet:'/toplist/detail',
         //歌单详情 参数 +歌单id
-        sheetDetail:'/playlist/detail?id='
-    }
+        sheetDetail:'/playlist/detail?id=',
+        //歌曲链接 //码率br=996k
+        getSongUrl:'/song/url?id=',
+        getSongLyric:'/lyric?id='
+    },
+    fontSize:parseFloat(getComputedStyle(document.documentElement, null)['fontSize'])
 }
 // 为api的url加上host
 for(let item of Object.keys(Golbal.api)){
