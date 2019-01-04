@@ -5,7 +5,7 @@ import Rank from '@/components/pages/Rank'
 import Search from '@/components/pages/Search'
 import Detail from '@/components/pages/Detail'
 import SongSheet from '@/components/pages/SongSheet'
-Vue.use(Router);
+Vue.use(Router)
 var router = new Router({
     mode: 'hash',
     routes: [
