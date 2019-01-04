@@ -1,5 +1,7 @@
 <style scoped>
 .wrapper{
+    position: absolute;
+    top: 0.7rem;
     width: 100%;
     height: auto;
     text-align: left;
