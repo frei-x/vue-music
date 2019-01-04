@@ -74,7 +74,7 @@ export default {
   height: auto;
   text-align: center;
   position: absolute;
-  
+  top: 0.7rem;
 }
 .el-col>div {
   height: 1.2rem;
