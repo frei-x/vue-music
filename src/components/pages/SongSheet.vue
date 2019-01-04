@@ -5,7 +5,7 @@ body {
 }
 .wrapper {
   position: absolute;
-  top: 0.3rem !important;
+  top: 0.7rem !important;
   width: 100%;
   height: auto;
   background: #ddd;
@@ -114,7 +114,7 @@ body {
         class="songList"
         v-for="(item,index) in arrSongList"
         :key="item.id"
-        @click="funGoSongDetail(item.id)"
+        @click="funGoSongDetail(item.id,item.al.picUrl)"
       >
         <!-- <img :src="item.al.picUrl" class="songListImg" :alt="item.name"> -->
         <img src="@/assets/songDetail.png" class="songListImg" :alt="item.name">
@@ -160,8 +160,8 @@ export default {
   },
   beforeMount: function() {
     //挂载前
-    this.$once('updateIsOpen', function(a){
-      console.log(a);
+    this.$once('update', function(a){
+      //console.log(a);
     });
   },
   mounted: function() {
@@ -203,16 +203,19 @@ export default {
     // }
   },
   methods: {
-    funGoSongDetail: function(songId) {
+    // 点击的歌曲的id/picurl,通过vuex传递给歌曲详情页
+    funGoSongDetail: function(songId,picUrl) {
     //  console.log("歌曲id=", songId);
-      this.$store.commit('funGoSongDetail',songId);
+    //commit后 vuex再通过路由跳转页面传参;
+      this.$store.commit('funGoSongDetail',{songId:songId,img:picUrl});
+      this.$store.commit('funGolbalSongSrcPic',{songId:songId,img:picUrl});
     },
     //MyCollapse发送@updateIsOpen自定义事件触发此处
     fun_update:function(arrAgs){
       //发送事件
      // console.log(...arrAgs);
       //再发送一个updateIsOpen给beforeMount中监听的函数
-     //  this.$emit('updateIsOpen', ['哈哈哈哈哈,发送,beforeMount时的监听收到']);
+      // this.$emit('update', '哈哈哈哈哈,发送,beforeMount时的监听收到');
     },
     request:function(){
         //滚动条重置到顶端(因为使用了路由缓存组件,来源页滚动条高较高,该页面滚动条高度也会与其同值)
