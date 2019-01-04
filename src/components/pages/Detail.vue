@@ -1,21 +1,26 @@
 <template>
   <div class="wrapper">
-      <audio :src="songUrl" controls></audio>
-      <pre>
-          {{songKlyric}}
-      </pre>
+    <div class="background" :style="'background:url('+backgroundImg+')'"></div>
+    <!-- <Myaudio :src="songUrl" @loaded="fun_loaded"></Myaudio> -->
+    <pre>
+        {{songKlyric}}
+    </pre>
   </div>
 </template>
 
 <script>
+import audio from "@/components/musicPlayer";
 export default {
-  components: {},
+  components: {
+    Myaudio: audio
+  },
   props: {},
   data() {
     return {
       songUrl: "",
       songLyric: "",
-      songKlyric:""
+      songKlyric: "",
+      backgroundImg: "rgba(0,0,0,0.5)"
     };
   },
   beforeCreate: function() {
@@ -43,14 +48,21 @@ export default {
     //已销毁
   },
   activated: function() {
+    // 隐藏导航
+    this.$store.commit("funisShowNav");
+
     var songId = this.$route.query.id;
-    this.axios.get(this.Golbal.api.getSongUrl + songId).then(res => {
-      if (res.data.code == 200) {
-        this.songUrl = res.data.data[0].url;
-      } else {
-        console.error("歌曲url获取失败" + res.data.code);
-      }
-    });
+    this.backgroundImg = this.$route.query.img;
+    //console.log(this.$route.query.img);
+    // 部分音频会403,hack技巧: 直接用id
+    this.songUrl = `https://music.163.com/song/media/outer/url?id=${songId}.mp3`;
+    // this.axios.get(this.Golbal.api.getSongUrl + songId).then(res => {
+    //   if (res.data.code == 200) {
+    //     this.songUrl = res.data.data[0].url;
+    //   } else {
+    //     console.error("歌曲url获取失败" + res.data.code);
+    //   }
+    // });
     this.axios.get(this.Golbal.api.getSongLyric + songId).then(res => {
       if (res.data.code == 200) {
         this.songLyric = res.data.lrc.lyric;
@@ -64,6 +76,7 @@ export default {
     //console.log('路由离开该页')
     //keep-alive 组件停用时调用。
     //该钩子在服务器端渲染期间不被调用。
+    this.$store.commit("funisShowNav");
   },
   computed: {
     //计算属性
@@ -71,11 +84,28 @@ export default {
   watch: {
     //数据观察
   },
-  methods: {}
+  methods: {
+    fun_loaded(param) {
+      console.log(param);
+    }
+  }
 };
 </script>
 <style scoped>
 .wrapper {
+  position: absolute;
+  top: 0px;
+  left: 0;
   width: 100%;
+  height: 100%;
+  transition: 0.5s ease;
+}
+.background {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  filter:brightness(0.5) blur(20px);
+  background-size: 100% 100% !important;
 }
 </style>
