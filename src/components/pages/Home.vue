@@ -4,8 +4,8 @@
       <el-col :span="8" v-for="(item,index) in arrSheetList" 
         :key="index" :data-id="item.id" @click.native="funGoSheetDetail(item.id)">
         <div class="sheetItem">
-          <!-- <img :src="item.picUrl" :alt="item.name"> -->
-          <img src="@/assets/sheetImg.png" :alt="item.name">
+          <img :src="item.picUrl" :alt="item.name">
+          <!-- <img src="@/assets/sheetImg.png" :alt="item.name"> -->
         <div class="sheetName">{{item.name}}</div>
         </div>
       </el-col>

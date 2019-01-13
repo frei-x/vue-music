@@ -101,8 +101,8 @@ body {
   <div class="wrapper">
     <el-row :gutter="0">
       <el-col :span="24" class="header">
-        <!-- <img :src="oSheetDetail.coverImgUrl" :alt="oSheetDetail.name"> -->
-        <img src="@/assets/sheetImg.png" :alt="oSheetDetail.name">
+        <img :src="oSheetDetail.coverImgUrl" :alt="oSheetDetail.name">
+        <!-- <img src="@/assets/sheetImg.png" :alt="oSheetDetail.name"> -->
         <div class="sheetName">{{oSheetDetail.name}}</div>
       </el-col>
     </el-row>

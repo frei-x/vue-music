@@ -1,6 +1,6 @@
 <template>
     <div ref="collapse" :data-h='height' class="body" :style="'height:'+closeHeight" @click="isOpen=!isOpen;">
-       <slot></slot><i :class="['el-icon-caret-left',isOpen?'el-icon-caret-leftOpen':'']"></i>
+       <pre id="pre"><slot></slot></pre><i :class="['el-icon-caret-left',isOpen?'el-icon-caret-leftOpen':'']"></i>
     </div>
 </template>
 
@@ -87,7 +87,9 @@ export default {
       this.closeHeight = newVleu;
     }
   },
-  methods: {}
+  methods: {
+    
+  }
 };
 </script>
 <style scoped>
@@ -97,7 +99,7 @@ export default {
 .body {
   width: 100%;
   overflow: hidden;
-  transition: 0.4s ease;
+  transition: 0.6s ease;
   backface-visibility: hidden;
   perspective: 1000;
   transform: translate3d(0, 0, 0);
@@ -116,5 +118,9 @@ export default {
 .el-icon-caret-leftOpen{
   transform: rotate(-90deg) scale(1.2);
   color: black;
+}
+#pre{
+  white-space: pre-wrap!important;
+word-wrap: break-word!important;
 }
 </style>
